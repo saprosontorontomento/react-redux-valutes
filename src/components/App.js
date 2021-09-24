@@ -2,14 +2,14 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import store from '../store/store';
 
-import Test from './Test';
+import Main from './Main';
 
 
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Test/>
+      <Main/>
     </Provider>
   );
 };
