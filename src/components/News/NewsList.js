@@ -3,7 +3,13 @@ import NewsItem from './NewsItem';
 
 const NewsList = ({news, title, remove}) => {
 
- 
+    if (!news.length) {
+        return (
+            <h1 className='news__h1'>
+                Новости не найдены!
+            </h1>
+        )
+    }
 
 
     return (
