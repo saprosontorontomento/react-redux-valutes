@@ -1,12 +1,19 @@
 .header {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    
+
+    &__nav {
+        display: flex;
+        justify-content: space-between;
+    }
+
     &__btn {
         font-size: 40px;
         color: white;
         background: linear-gradient(45deg, #2196F3 30%, #21CBF3 90%);
         border: 0px;
-        border-radius: 3px;
+        border-radius: 50px;
         box-shadow: 0 3px 5px 2px rgba(33, 203, 243, .3);
         color: white;
         height: 100px;
@@ -15,5 +22,17 @@
 
         cursor: pointer;
         
+    }
+
+
+}
+
+.nav {
+    &__list {
+        display: flex;
+    }
+
+    &__item {
+        list-style: none;
     }
 }
