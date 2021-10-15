@@ -2,7 +2,6 @@ import { ADD_VALUTE } from "../actions/actionTypes";
 
 const initialState = { // что в нём есть или будет. ЧТО ПРИМИТЬСЯ
     valutes: [],
-    date: null,
 };
 
 export default function valute(state = initialState, action) { // могу поменять данные с запроса, фильтровать. Раскинули и обработали запрос
@@ -11,7 +10,6 @@ export default function valute(state = initialState, action) { // могу по�
             return {
                 ...state,
                 valutes: action.payload.Valute,
-                date: action.payload.Date,
             }
         default:
             return state;
