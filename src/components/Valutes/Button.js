@@ -10,37 +10,47 @@ import Spinner from './Spinner';
 
 export default function BasicButtonGroup() {
 
-  const [isLoaded, setIsLoaded] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState(null)
 
-  const dispatch = useDispatch();
-  const valutes = useSelector(valutesSelector);
+    const valutes = useSelector(valutesSelector);
+    const dispatch = useDispatch();
 
-  // console.log(valutes);
+    // console.log(valutes);
 
 
+    useEffect(() => {
+        dispatch(getValutes())
+        .then(
+            (error) => {
+                setIsLoaded(true);
+                setError(error);
+            }
+        )
+    }, [])
+    
 
-  useEffect(() => {
-      dispatch(getValutes())
-      
-  }, [dispatch])
-
- if (!isLoaded) {
-   return <Spinner/>
- } else {
+    if (error) {
+        return <div className="err">Ошибка : {error.message}</div>
+    } else if (!isLoaded) {
+        return <Spinner/>
+    } else {
     return (
-      <ButtonGroup variant="contained" aria-label="outlined primary button group">
-          <Button 
-            size="large" 
-            variant="outlined" 
-          >RUB</Button>
-          <Button size="large">USD</Button>
-          <Button size="large">EUR</Button>
-          <Button size="large">GBP</Button>
-          <Button size="large">JPY</Button>
-          <Button >
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>
-          </Button>
-      </ButtonGroup>
+        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+            {
+                Object.values(valutes).map(item => (
+                    <Button
+                        key={item.ID}
+                        size="large" 
+                        variant="outlined" 
+                        >{item.CharCode}
+                    </Button>
+                ))
+            }
+            <Button >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>
+            </Button>
+        </ButtonGroup>
     );
- }
+    }
 }
