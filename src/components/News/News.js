@@ -21,7 +21,7 @@ const News = () => {
     useEffect(() => {
         dispatch(getNews())
         
-    }, [])
+    }, [dispatch])
 
     const [news, setNews] = useState([
         {id: 1, title: 'JavaScript', body: 'NEWS NEWS NEWS NEWS'},
