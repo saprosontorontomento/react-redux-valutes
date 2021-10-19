@@ -13,7 +13,7 @@ const Header = () => {
                         <Link to='/valutes'><button className="header__btn">Valutes</button></Link>
                     </li>
                     <li className="nav__item">
-                        <Link to='/news'><button className="header__btn">News</button></Link>
+                        {/* <Link to='/news'><button className="header__btn">News</button></Link> */}
                     </li>
                 </ul>
             </nav>
