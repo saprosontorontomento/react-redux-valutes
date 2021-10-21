@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import BasicButtonGroup from './Button';
+import Button from "@mui/material/Button";
+
 
 import './Valuttes.scss';
 
 const Valutes = () => {
 
-
-    const [value, setValue] = useState('RUB');
-
+    const [value, setValue] = useState('');
 
     return (
         <div className="main__container">
             <div className="main__box">
                 <div className="main__valutes">
-                    <BasicButtonGroup/>
+                    <Button
+                        size="large" 
+                        variant={"contained"}
+                        >RUB
+                    </Button>
                 </div>
                 <div className="main__inputs">
                     <input 

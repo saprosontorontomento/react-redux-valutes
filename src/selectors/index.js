@@ -1,4 +1,4 @@
-const popularValute = ['USD', 'GBP', 'JPY', 'AUD'];
+const popularValute = ['USD', 'GBP', 'JPY', 'AUD', 'EUR'];
 
 export const valutesSelector = (state) => state.valutes.valutes; //  мост между state и components . Так мне нужно из state что-то и отдает some
 

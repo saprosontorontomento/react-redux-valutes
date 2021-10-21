@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from "@mui/material/Button";
 import ButtonGroup from '@mui/material/ButtonGroup';
 
@@ -13,10 +13,16 @@ export default function BasicButtonGroup() {
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [error, setError] = useState(null)
+    const [activeButton, setActiveButton] = useState(null)
 
     const dispatch = useDispatch();
     const popularValutes = useSelector(popularValutesSelector);
     
+    const btnRef = useRef(null)
+    const handleActiveButton = (id) => setActiveButton(id); 
+    const onValuteValue = (item) => {
+        console.log(item.Value);
+    }
 
     useEffect(() => {
         dispatch(getPopularValutes())
@@ -36,13 +42,27 @@ export default function BasicButtonGroup() {
         return <Spinner/>
     } else {
     return (
-        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+        <ButtonGroup 
+            ref={btnRef}
+            variant="contained" 
+            aria-label="outlined primary button group"
+        >
+            {/* <Button
+                size="large" 
+                onClick={handleActiveButton}
+                variant={"contained"}
+                >RUB
+            </Button> */}
             {
                 popularValutes.map(item => (
                     <Button
                         key={item.ID}
                         size="large" 
-                        variant="outlined" 
+                        onClick={() => {
+                            handleActiveButton(item.ID);
+                            onValuteValue(item);
+                        }}
+                        variant={activeButton === item.ID ? "contained" : "outlined"}
                         >{item.CharCode}
                     </Button>
                 ))

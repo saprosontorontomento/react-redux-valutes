@@ -7,8 +7,10 @@
 
 .dropdown {
     max-height: 350px;
+    overflow-x: hidden;
     overflow: scroll;
-    width: 371px;
+    border-radius:5px 5px; 
+    width: 445px;
     visibility: hidden;
     background: #ffffff;
     border-radius: 8px;
@@ -52,7 +54,7 @@
     }
 
     &__inputs {
-        padding: 30px 20px 15px;
+        padding: 15px 20px 15px;
         border: 1px solid #cdcdcd;
     }
 
