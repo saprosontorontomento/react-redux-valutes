@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import Spinner from '../../components/Valutes/Spinner';
 
@@ -52,13 +53,12 @@ const DropDown = () => {
         return (
             <div className="dropdown__container">
                 <Button
+                   
                     variant="contained" 
                     className='dropdown__trigger' 
                     onClick={onDropDown}
                     >
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>
-                    </span>
+                    <ArrowDropDownIcon />
                 </Button>
                 <div ref={dropDownRef} className={`dropdown ${isActive ? 'active' : ''}`}>
                     <ul>
