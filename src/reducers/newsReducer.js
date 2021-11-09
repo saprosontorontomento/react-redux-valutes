@@ -1,7 +1,7 @@
 import { ADD_NEWS } from "../actions/actionTypes";
 
 const initialState = { // что в нём есть или будет. ЧТО ПРИМИТЬСЯ
-    news: {}
+    news: []
 };
 
 export default function news(state = initialState, action) { // могу поменять данные с запроса, фильтровать. Раскинули и обработали запрос
@@ -9,7 +9,7 @@ export default function news(state = initialState, action) { // могу пом�
         case ADD_NEWS:
             return {
                 ...state,
-                news: action.payload.news,
+                news: action.payload,
             }
         default:
             return state;

@@ -8,4 +8,8 @@ export const popularValutesSelector = (state) => {
     });
 };
 
-export const newsSelector = (state) => state;
+export const newsSelector = (state) => {
+    return Object.values(state.news.news)
+};
+
+
