@@ -12,4 +12,5 @@ export const newsSelector = (state) => {
     return Object.values(state.news.news)
 };
 
+export const infoNewsSelector = (state) => state.news.news;
 

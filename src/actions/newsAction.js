@@ -1,7 +1,7 @@
 import { ADD_NEWS } from './actionTypes';
 const axios = require('axios');
 
-const URL = 'https://jsonplaceholder.typicode.com/posts';
+export const URL = 'https://jsonplaceholder.typicode.com/posts';
 
 export const getNews = () => { // изменяет, фильтрует. Стреляет из редюсера
     return async (dispatch) => {

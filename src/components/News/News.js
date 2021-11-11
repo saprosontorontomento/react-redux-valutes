@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getNews } from '../../actions/newsAction';
-import { newsSelector } from '../../selectors';
+import { getInfoNews, getNews } from '../../actions/newsAction';
+import { infoNewsSelector, newsSelector } from '../../selectors';
 import MyBtn from '../../UI/button/MyBtn';
+import { getPageCount } from '../../utils/pages';
 // import MyModal from '../../UI/modal/MyModal';
 
 
@@ -12,18 +13,66 @@ import Header from '../Header/Header';
 // import NewsForm from './NewsForm';
 
 import './NewsItem.scss';
+import NewsService from './NewsService';
 // import NewsList from './NewsList';
 
 const News = () => {
+    // const [totalCount, setTotalCount] = useState(0);
+    const [newsInfo, setNewsInfo] = useState([]) ;
+    const [totalPages, setTotalPages] = useState(0);
+    const [limit, setTimit] = useState(10);
+    const [page, setPage] = useState(1);
+    
     const dispatch = useDispatch();
     const news = useSelector(newsSelector);
-    
-    
+
+    async function fetchNews() {
+        const resp = await NewsService(limit, page);
+        setNewsInfo(resp);
+        const totalCount = resp.headers['x-total-count'];
+        setTotalPages(getPageCount(totalCount, limit));
+    }
+
+    console.log(totalPages);
 
     useEffect(() => {
         dispatch(getNews())
         
     }, [dispatch])
+
+    return (
+        <div>
+            <Header/>
+            <button
+                onClick={fetchNews}
+            >GET NEWS
+            </button>
+            <div></div>
+            {
+                news.map(item => {
+                    return (
+                        <div className="post" key={item.id}>
+                         <div className="post__content">
+                             <strong>{item.id}. {item.title}</strong>
+                             <div>
+                                 {item.body}
+                             </div>
+                         </div>
+                        <div className="post__btns">
+                             <MyBtn>
+                                 Удалить
+                             </MyBtn>
+                         </div>
+                     </div>
+                    )
+                })
+            }
+        </div>
+    );
+};
+
+export default News;
+
 
     // const [newsItem, setNewsItem] = useState([]);
 
@@ -49,31 +98,3 @@ const News = () => {
     // const removeNews = (newsItem) => {
     //     setNewsItem(newsItem.filter(item => item.id !== newsItem.id))
     // }
-
-    return (
-        <div>
-            <Header/>
-            {
-                news.map(item => {
-                    return (
-                        <div className="post" key={item.id}>
-                         <div className="post__content">
-                             <strong>{item.id}. {item.title}</strong>
-                             <div>
-                                 {item.body}
-                             </div>
-                         </div>
-                        <div className="post__btns">
-                             <MyBtn>
-                                 Удалить
-                             </MyBtn>
-                         </div>
-                     </div>
-                    )
-                })
-            }
-        </div>
-    );
-};
-
-export default News;
