@@ -1,9 +1,10 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getInfoNews, getNews } from '../../actions/newsAction';
 import { infoNewsSelector, newsSelector } from '../../selectors';
 import MyBtn from '../../UI/button/MyBtn';
-import { getPageCount } from '../../utils/pages';
+import { getPageCount, getPagesArray } from '../../utils/pages';
 // import MyModal from '../../UI/modal/MyModal';
 
 
@@ -22,6 +23,8 @@ const News = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [limit, setTimit] = useState(10);
     const [page, setPage] = useState(1);
+    let pagesArray = getPagesArray(totalPages)
+    console.log(pagesArray);
     
     const dispatch = useDispatch();
     const news = useSelector(newsSelector);
