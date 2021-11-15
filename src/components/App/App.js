@@ -3,9 +3,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.scss';
 
-import Main from '../Main/Main';
 import Header from '../Header/Header';
 import News from '../News/News';
+import Valutes from '../Valutes/Valutes';
 
 
 
@@ -16,7 +16,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={Header} />
             <Route  path="/news" component={News} />
-            <Route  path="/valutes" component={Main} />
+            <Route  path="/valutes" component={Valutes} />
           </Switch>
         </div>
       </BrowserRouter>

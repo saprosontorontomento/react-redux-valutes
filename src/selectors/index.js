@@ -8,9 +8,6 @@ export const popularValutesSelector = (state) => {
     });
 };
 
-export const newsSelector = (state) => {
-    return Object.values(state.news.news)
-};
+export const newsSelector = (state) => state.news.news;
 
-export const infoNewsSelector = (state) => state.news.news;
-
+export const headersSelector = (state) => state.news.headers;

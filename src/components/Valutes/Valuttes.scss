@@ -1,20 +1,25 @@
-.main__container {
+.main {
+    padding: 40px 0;
     display: flex;
+    justify-content: center;
+
+    &__container {
+        display: flex;
+    }
+    
+    &__inputs {
+
+        margin: 24px 0;
+        padding: 30px 20px 15px;
+        border: 1px solid #cdcdcd;
+    }
+
+    &__input {
+        font-size: 44px;
+        margin-bottom: 30px;
+        outline: 0;
+        border: none;
+        font-family: GraphikCy-Semibold,'Helvetica CY',Arial,sans-serif;
+        border-radius: 4px;
+    }
 }
-
-.main__inputs {
-
-    margin: 24px 0;
-    padding: 30px 20px 15px;
-    border: 1px solid #cdcdcd;
-}
-
-.main__input {
-    font-size: 44px;
-    margin-bottom: 30px;
-    outline: 0;
-    border: none;
-    font-family: GraphikCy-Semibold,'Helvetica CY',Arial,sans-serif;
-    border-radius: 4px;
-}
-

@@ -1,77 +1,103 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import { Pagination, Stack } from '@mui/material';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getInfoNews, getNews } from '../../actions/newsAction';
-import { infoNewsSelector, newsSelector } from '../../selectors';
+import { getNews } from '../../actions/newsAction';
+import { headersSelector, newsSelector } from '../../selectors';
 import MyBtn from '../../UI/button/MyBtn';
 import { getPageCount, getPagesArray } from '../../utils/pages';
 // import MyModal from '../../UI/modal/MyModal';
 
 
 import Header from '../Header/Header';
+import Spinner from '../Valutes/Spinner';
 // import NewsFilter from './NewsFilter';
 
 // import NewsForm from './NewsForm';
 
-import './NewsItem.scss';
-import NewsService from './NewsService';
+import './News.scss';
 // import NewsList from './NewsList';
 
 const News = () => {
     // const [totalCount, setTotalCount] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(true);
+    const [error, setError] = useState(null)
+
     const [newsInfo, setNewsInfo] = useState([]) ;
     const [totalPages, setTotalPages] = useState(0);
-    const [limit, setTimit] = useState(10);
+    const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
-    let pagesArray = getPagesArray(totalPages)
-    console.log(pagesArray);
     
     const dispatch = useDispatch();
+    
     const news = useSelector(newsSelector);
+    const headers = useSelector(headersSelector);
 
-    async function fetchNews() {
-        const resp = await NewsService(limit, page);
-        setNewsInfo(resp);
-        const totalCount = resp.headers['x-total-count'];
+    let pagesArray = getPagesArray(totalPages)
+ 
+    useMemo(() => {
+        const totalCount = headers['x-total-count'];
         setTotalPages(getPageCount(totalCount, limit));
-    }
-
+    }, [headers, limit]);
+    
+    useEffect(() => {
+        dispatch(getNews(limit, page))
+    }, [dispatch, limit, page])
+ 
+    console.log(pagesArray);
     console.log(totalPages);
 
-    useEffect(() => {
-        dispatch(getNews())
-        
-    }, [dispatch])
+    const handleChange = (value) => {
+        setPage(value);
+    };
+    
 
-    return (
-        <div>
-            <Header/>
-            <button
-                onClick={fetchNews}
-            >GET NEWS
-            </button>
-            <div></div>
-            {
-                news.map(item => {
-                    return (
-                        <div className="post" key={item.id}>
-                         <div className="post__content">
-                             <strong>{item.id}. {item.title}</strong>
-                             <div>
-                                 {item.body}
-                             </div>
-                         </div>
-                        <div className="post__btns">
-                             <MyBtn>
-                                 Удалить
-                             </MyBtn>
-                         </div>
-                     </div>
-                    )
-                })
-            }
-        </div>
-    );
+    if (error) {
+        return <div className="err">Ошибка : {error.message}</div>
+    } else if (!isLoaded) {
+        return <Spinner/>
+    } else {
+        return (
+            <div>
+                <Header/>
+                {
+                    news.map(item => {
+                        return (
+                            <div 
+                                className="post" 
+                                key={item.id}
+                            >
+                                <div className="post__content">
+                                    <strong>{item.id}. {item.title}</strong>
+                                    <div>
+                                        {item.body}
+                                    </div>
+                                </div>
+                                <div className="post__btns">
+                                    <MyBtn>
+                                        Удалить
+                                    </MyBtn>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+                <div className='page__wrapper'>
+                    {
+                        <Stack spacing={2}>
+                            <Pagination 
+                                page={page} 
+                                onChange={handleChange}
+                                count={totalPages} 
+                                color="primary" 
+                                showFirstButton 
+                                showLastButton 
+                            />
+                        </Stack>
+                    }
+                </div>
+            </div>
+        );
+    }
 };
 
 export default News;
