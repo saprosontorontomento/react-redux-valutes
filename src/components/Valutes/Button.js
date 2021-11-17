@@ -47,12 +47,6 @@ export default function BasicButtonGroup() {
             variant="contained" 
             aria-label="outlined primary button group"
         >
-            {/* <Button
-                size="large" 
-                onClick={handleActiveButton}
-                variant={"contained"}
-                >RUB
-            </Button> */}
             {
                 popularValutes.map(item => (
                     <Button

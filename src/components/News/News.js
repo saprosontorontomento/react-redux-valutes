@@ -4,29 +4,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNews } from '../../actions/newsAction';
 import { headersSelector, newsSelector } from '../../selectors';
 import MyBtn from '../../UI/button/MyBtn';
+import MyInput from '../../UI/input/MyInput';
 import { getPageCount, getPagesArray } from '../../utils/pages';
 // import MyModal from '../../UI/modal/MyModal';
 
 
 import Header from '../Header/Header';
 import Spinner from '../Valutes/Spinner';
-// import NewsFilter from './NewsFilter';
+import NewsFilter from './NewsFilter';
 
 // import NewsForm from './NewsForm';
 
 import './News.scss';
-// import NewsList from './NewsList';
 
 const News = () => {
     // const [totalCount, setTotalCount] = useState(0);
-    const [isLoaded, setIsLoaded] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [error, setError] = useState(null)
+    
 
-    const [newsInfo, setNewsInfo] = useState([]) ;
     const [totalPages, setTotalPages] = useState(0);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
-    
+    const [searchQuery, setSearchQuery] = useState('');    
+    const [filter, setFilter] = useState({sort: '', query: ''})
     const dispatch = useDispatch();
     
     const news = useSelector(newsSelector);
@@ -41,16 +42,35 @@ const News = () => {
     
     useEffect(() => {
         dispatch(getNews(limit, page))
+        .then(
+            (error) => {
+                setIsLoaded(true)
+                setError(error)
+            }
+            
+        )
     }, [dispatch, limit, page])
  
     console.log(pagesArray);
     console.log(totalPages);
 
-    const handleChange = (value) => {
+    const handleChange = (event, value) => {
         setPage(value);
     };
-    
+   
+    const sortedNews = useMemo(() => {
+        if(filter.sort) {
+            return [...news].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
+        }
+        return news;
+    }, [filter.sort, news]);
 
+    console.log(sortedNews);
+
+    const seachedNews = useMemo(() => {
+        return sortedNews.filter(item => item.title.toLowerCase().includes(searchQuery))
+    }, [sortedNews, searchQuery])
+    
     if (error) {
         return <div className="err">Ошибка : {error.message}</div>
     } else if (!isLoaded) {
@@ -59,8 +79,16 @@ const News = () => {
         return (
             <div>
                 <Header/>
+                <MyInput
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <NewsFilter
+                    filter={filter}
+                    setFilter={setFilter}
+                />
                 {
-                    news.map(item => {
+                    seachedNews.map(item => {
                         return (
                             <div 
                                 className="post" 
@@ -87,7 +115,7 @@ const News = () => {
                             <Pagination 
                                 page={page} 
                                 onChange={handleChange}
-                                count={totalPages} 
+                                count={totalPages}
                                 color="primary" 
                                 showFirstButton 
                                 showLastButton 
