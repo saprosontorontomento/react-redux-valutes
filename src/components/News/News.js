@@ -1,28 +1,25 @@
-import { Pagination, Stack } from '@mui/material';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNews } from '../../actions/newsAction';
 import { headersSelector, newsSelector } from '../../selectors';
 import MyBtn from '../../UI/button/MyBtn';
 import MyInput from '../../UI/input/MyInput';
-import { getPageCount, getPagesArray } from '../../utils/pages';
+import { getPageCount } from '../../utils/pages';
 // import MyModal from '../../UI/modal/MyModal';
+// import NewsForm from './NewsForm';
 
-
-import Header from '../Header/Header';
 import Spinner from '../Valutes/Spinner';
 import NewsFilter from './NewsFilter';
 
-// import NewsForm from './NewsForm';
 
 import './News.scss';
+import BackToTop from '../../UI/button/ScrollTop';
+import MyPagination from '../../UI/pagination/MyPagination';
 
 const News = () => {
-    // const [totalCount, setTotalCount] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
     const [error, setError] = useState(null)
     
-
     const [totalPages, setTotalPages] = useState(0);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
@@ -32,8 +29,6 @@ const News = () => {
     
     const news = useSelector(newsSelector);
     const headers = useSelector(headersSelector);
-
-    let pagesArray = getPagesArray(totalPages)
  
     useMemo(() => {
         const totalCount = headers['x-total-count'];
@@ -50,9 +45,6 @@ const News = () => {
             
         )
     }, [dispatch, limit, page])
- 
-    console.log(pagesArray);
-    console.log(totalPages);
 
     const handleChange = (event, value) => {
         setPage(value);
@@ -65,11 +57,10 @@ const News = () => {
         return news;
     }, [filter.sort, news]);
 
-    console.log(sortedNews);
-
     const seachedNews = useMemo(() => {
         return sortedNews.filter(item => item.title.toLowerCase().includes(searchQuery))
     }, [sortedNews, searchQuery])
+
     
     if (error) {
         return <div className="err">Ошибка : {error.message}</div>
@@ -77,30 +68,32 @@ const News = () => {
         return <Spinner/>
     } else {
         return (
-            <div>
-                <Header/>
-                <MyInput
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
+            <div className="news">
+                <div className="news__search">
+                    <BackToTop/>
+                    <MyInput
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </div>
                 <NewsFilter
-                    filter={filter}
-                    setFilter={setFilter}
+                        filter={filter}
+                        setFilter={setFilter}
                 />
                 {
                     seachedNews.map(item => {
                         return (
                             <div 
-                                className="post" 
+                                className="news__post" 
                                 key={item.id}
                             >
-                                <div className="post__content">
+                                <div>
                                     <strong>{item.id}. {item.title}</strong>
                                     <div>
                                         {item.body}
                                     </div>
                                 </div>
-                                <div className="post__btns">
+                                <div>
                                     <MyBtn>
                                         Удалить
                                     </MyBtn>
@@ -109,18 +102,13 @@ const News = () => {
                         )
                     })
                 }
-                <div className='page__wrapper'>
+                <div>
                     {
-                        <Stack spacing={2}>
-                            <Pagination 
-                                page={page} 
-                                onChange={handleChange}
-                                count={totalPages}
-                                color="primary" 
-                                showFirstButton 
-                                showLastButton 
-                            />
-                        </Stack>
+                       <MyPagination 
+                            page={page} 
+                            handleChange={handleChange} 
+                            totalPages={totalPages}
+                        />
                     }
                 </div>
             </div>

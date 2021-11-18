@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 import BasicButtonGroup from './Button';
-// import Button from "@mui/material/Button";
-
+import Button from "@mui/material/Button";
 
 import './Valuttes.scss';
-import Button from "@mui/material/Button";
-import Header from '../Header/Header';
 
 const Valutes = () => {
     
     const [value, setValue] = useState('');
     
     return (
-        <div >
-            <Header/>
             <div className="main main__container">
                 <div className="main__box">
                     <div className="main__valutes">
@@ -41,7 +36,6 @@ const Valutes = () => {
                     </div>
                 </div>
             </div>
-        </div>
     );
 };
 

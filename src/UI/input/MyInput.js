@@ -9,10 +9,15 @@ export default function MyInput() {
     <Box
       sx={{
         width: 500,
-        maxWidth: '100%',
       }}
     >
-      <TextField fullWidth label="поиск" id="fullWidth" />
+      <TextField 
+        sx={{
+          width: 450,
+        }}
+        fullWidth 
+        label="поиск" 
+        id="fullWidth" />
     </Box>
   );
 }

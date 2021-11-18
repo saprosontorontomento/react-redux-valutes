@@ -12,7 +12,7 @@ const MainBtn = ({children}) => {
         <div 
             ref={activeClassBtnRef}
             onClick={onChangeClassBtn}
-            className={`button ${isActive ? 'active' : ''}`}
+            className={`header__button ${isActive ? 'active' : ''}`}
         >
             <span></span>
             <span></span>
