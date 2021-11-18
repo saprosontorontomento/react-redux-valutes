@@ -1,4 +1,9 @@
 .error {
     display: flex;
     justify-content: center;
+    
+    &__img {
+        width: 100%;
+        height: auto;
+    }
 }
